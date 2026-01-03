@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs');const d=JSON.parse(fs.readFileSync(0,'utf8'));const p=d.tool_input?.file_path||'';if(p.match(/\\.(js|jsx|ts|tsx|json|css)$/))require('child_process').execSync('npx prettier --write '+JSON.stringify(p),{stdio:'inherit'});if(p.match(/\\.py$/))require('child_process').execSync('uv run ruff format '+JSON.stringify(p),{stdio:'inherit'})\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prettier:*)",
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv add:*)",
+      "Bash(python -m:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)"
+    ]
+  }
+}

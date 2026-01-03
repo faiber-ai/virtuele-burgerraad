@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(tree:*)",
+      "Bash(npm install:*)",
+      "Bash(uv add:*)",
+      "mcp__taskmaster-ai__parse_prd",
+      "mcp__taskmaster-ai__get_tasks",
+      "mcp__taskmaster-ai__expand_task",
+      "mcp__taskmaster-ai__update_subtask",
+      "Bash(git commit:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "next-devtools",
+    "shadcn",
+    "context7",
+    "perplexity",
+    "playwright",
+    "taskmaster-ai"
+  ]
+}

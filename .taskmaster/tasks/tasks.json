@@ -2,14 +2,14 @@
   "master": {
     "tasks": [
       {
-        "id": 1,
+        "id": "1",
         "title": "Setup project structure with FastAPI backend and React/Vite frontend",
         "description": "Initialize project directories, FastAPI backend on port 8001, React/Vite frontend on port 5173, and configure CORS for localhost:5173",
         "details": "Create backend/ directory with main.py, config.py, burgerraad.py, openrouter.py, storage.py. Create frontend/ with Vite React template: `npm create vite@latest frontend -- --template react`. Add CORS middleware in FastAPI: `app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:5173'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])`. Backend run command: `python -m backend.main`. Frontend: `cd frontend && npm install && npm run dev`. Use Dutch UI text throughout.",
         "testStrategy": "Verify backend starts on http://localhost:8001/health, frontend on http://localhost:5173, CORS allows requests from frontend, no console errors.",
         "priority": "high",
         "dependencies": [],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -17,8 +17,10 @@
             "description": "Initialize backend/ directory with main.py, config.py, burgerraad.py, openrouter.py, and storage.py empty files",
             "dependencies": [],
             "details": "Use mkdir backend && touch backend/{main.py,config.py,burgerraad.py,openrouter.py,storage.py}. Ensure files are created in project root for clean structure following FastAPI best practices[1][2]",
-            "status": "pending",
-            "testStrategy": "Verify all 5 Python files exist in backend/ directory with correct names and zero-byte size initially"
+            "status": "done",
+            "testStrategy": "Verify all 5 Python files exist in backend/ directory with correct names and zero-byte size initially",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T17:45:29.620Z"
           },
           {
             "id": 2,
@@ -28,8 +30,10 @@
               1
             ],
             "details": "Import FastAPI and CORSMiddleware from fastapi.middleware.cors. Configure app = FastAPI() with app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:5173'], allow_credentials=True, allow_methods=['*'], allow_headers=['*']). Add @app.get('/health') endpoint. Set uvicorn run on port 8001[1][2]",
-            "status": "pending",
-            "testStrategy": "Run 'python -m backend.main' and verify server starts on http://localhost:8001/health returns 200 OK, CORS headers present"
+            "status": "done",
+            "testStrategy": "Run 'python -m backend.main' and verify server starts on http://localhost:8001/health returns 200 OK, CORS headers present",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T17:45:29.764Z"
           },
           {
             "id": 3,
@@ -37,8 +41,10 @@
             "description": "Create frontend/ directory using Vite React template and replace default English text with Dutch placeholders",
             "dependencies": [],
             "details": "Run 'npm create vite@latest frontend -- --template react'. Then cd frontend && npm install. Update src/App.jsx to use Dutch text like 'Welkom bij Burgerraad' and 'Beleid invoeren'. Ensure Vite dev server defaults to port 5173[2][4][5]",
-            "status": "pending",
-            "testStrategy": "Run 'cd frontend && npm run dev', verify app loads on http://localhost:5173 with Dutch text visible, no console errors"
+            "status": "done",
+            "testStrategy": "Run 'cd frontend && npm run dev', verify app loads on http://localhost:5173 with Dutch text visible, no console errors",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:00:02.826Z"
           },
           {
             "id": 4,
@@ -49,8 +55,10 @@
               3
             ],
             "details": "Document backend run: 'python -m backend.main' (uvicorn backend.main:app --host 0.0.0.0 --port 8001 --reload). Frontend: 'cd frontend && npm install && npm run dev'. Create README.md with these exact commands. Test both servers start without port conflicts[1][2]",
-            "status": "pending",
-            "testStrategy": "Execute both run commands in separate terminals, verify backend:8001/health works, frontend:5173 loads, browser dev tools show no CORS errors on API calls"
+            "status": "done",
+            "testStrategy": "Execute both run commands in separate terminals, verify backend:8001/health works, frontend:5173 loads, browser dev tools show no CORS errors on API calls",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:00:02.995Z"
           },
           {
             "id": 5,
@@ -62,20 +70,23 @@
               4
             ],
             "details": "In frontend/src/App.jsx add fetch('http://localhost:8001/health').then(res => res.json()). Update CORS in backend/main.py if needed. Ensure allow_credentials=True handles auth headers. Verify preflight OPTIONS requests succeed[1][2][5]\n<info added on 2026-01-03T17:23:19.501Z>\nAfter validating CORS, use Playwright MCP to verify full stack connectivity: 1) browser_navigate to http://localhost:5173, 2) browser_snapshot to confirm the React frontend page loads successfully, 3) browser_console_messages to check that no CORS errors appear in the browser console. This ensures the frontend can communicate with the backend without CORS blocking requests.\n</info added on 2026-01-03T17:23:19.501Z>",
-            "status": "pending",
-            "testStrategy": "With both servers running, verify frontend fetch to backend/health succeeds (200 OK), Network tab shows no CORS errors, preflight OPTIONS request returns 200 with correct Access-Control-Allow-* headers"
+            "status": "done",
+            "testStrategy": "With both servers running, verify frontend fetch to backend/health succeeds (200 OK), Network tab shows no CORS errors, preflight OPTIONS request returns 200 with correct Access-Control-Allow-* headers",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:00:03.190Z"
           }
-        ]
+        ],
+        "updatedAt": "2026-01-03T18:00:03.190Z"
       },
       {
-        "id": 2,
+        "id": "2",
         "title": "Define 15 personas and configuration in config.py",
         "description": "Create PERSONAS list with all 15 Dutch citizen personas including name, age, profile, kernzorg, and system prompts",
         "details": "In backend/config.py: Define PERSONAS as list of dicts matching PRD table. Add PERSONA_MODEL='anthropic/claude-3.5-sonnet:20240620' (updated from claude-sonnet-4), OMBUDSMAN_MODEL=same. Load OPENROUTER_API_KEY from .env. System prompts: 'Je bent {name}, {leeftijd} jaar, {profiel}. Je kernzorg is: \"{kernzorg}\". Antwoord als Nederlandse burger op dit wetsvoorstel: Wat betekent dit voor jouw portemonnee en dagelijks leven?'",
         "testStrategy": "Unit test config.py loads 15 personas correctly, validates all required fields present, API key loaded from env.",
         "priority": "high",
         "dependencies": [
-          1
+          "1"
         ],
         "status": "pending",
         "subtasks": [
@@ -86,7 +97,8 @@
             "dependencies": [],
             "details": "Use list of dicts format: [{'name': str, 'leeftijd': int, 'profiel': str, 'kernzorg': str, 'system_prompt': str}]. Ensure Dutch names, realistic ages (18-75), profiles reflecting diverse Dutch citizen backgrounds like thrifty, outspoken traits from demographics.",
             "status": "pending",
-            "testStrategy": "Unit test verifies PERSONAS is list of 15 dicts with all 5 required keys present and non-empty."
+            "testStrategy": "Unit test verifies PERSONAS is list of 15 dicts with all 5 required keys present and non-empty.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -97,7 +109,8 @@
             ],
             "details": "Include stereotypes/realities: tall/blue-eyed ethnic Dutch, thrifty financially savvy, outspoken; plus 20% non-Western backgrounds per stats. Examples: young student worried about housing, retiree concerned about pensions, Moroccan shopkeeper on regulations.",
             "status": "pending",
-            "testStrategy": "Validate diversity: age range 18-75, at least 3 age groups, 80% ethnic Dutch + minorities matching Wikipedia demographics, unique kernzorg per persona."
+            "testStrategy": "Validate diversity: age range 18-75, at least 3 age groups, 80% ethnic Dutch + minorities matching Wikipedia demographics, unique kernzorg per persona.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -109,7 +122,8 @@
             ],
             "details": "Use f-strings or .format() to inject persona data dynamically. Ensure {leeftijd} uses Dutch word, quotes around kernzorg preserved. Template focuses on wallet/daily life impact as Dutch citizen.",
             "status": "pending",
-            "testStrategy": "Test renders unique prompt per persona, verifies all placeholders replaced correctly, Dutch language intact, length reasonable (under 300 chars)."
+            "testStrategy": "Test renders unique prompt per persona, verifies all placeholders replaced correctly, Dutch language intact, length reasonable (under 300 chars).",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -120,7 +134,8 @@
             ],
             "details": "Import os, load_dotenv(). Set constants at module top. Update from previous 'claude-sonnet-4'. Ensure API key raises clear error if missing for security.",
             "status": "pending",
-            "testStrategy": "Mock .env file, verify both models match exact string, API key loads correctly or raises ValueError if absent."
+            "testStrategy": "Mock .env file, verify both models match exact string, API key loads correctly or raises ValueError if absent.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -133,20 +148,21 @@
             ],
             "details": "Use pytest. Test len(PERSONAS)==15, all required keys, model strings exact match, env loading. Test edge case: missing .env raises exception gracefully.",
             "status": "pending",
-            "testStrategy": "Run pytest config_test.py: 100% pass rate, covers happy path + missing env, validates Dutch content integrity and field validation."
+            "testStrategy": "Run pytest config_test.py: 100% pass rate, covers happy path + missing env, validates Dutch content integrity and field validation.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 3,
+        "id": "3",
         "title": "Implement OpenRouter async client in openrouter.py",
         "description": "Create async OpenRouter API client with parallel execution using asyncio.gather()",
         "details": "Use aiohttp for async requests. Function `async def query_openrouter(prompt: str, system_prompt: str, model: str) -> dict`. Parallel execution: `await asyncio.gather(*[query_persona(persona, policy_text) for persona in PERSONAS])`. Include retries (3 attempts) and graceful degradation (return default response on failure). Extract sentiment_score from response using regex or LLM parsing.",
         "testStrategy": "Mock OpenRouter API responses, test parallel execution returns 15 responses within 30s, test single failure doesn't crash, sentiment extraction accurate (-1 to 1).",
         "priority": "high",
         "dependencies": [
-          1,
-          2
+          "1",
+          "2"
         ],
         "status": "pending",
         "subtasks": [
@@ -157,7 +173,8 @@
             "dependencies": [],
             "details": "Use aiohttp.ClientSession with base_url='https://openrouter.ai/api/v1', headers including OPENROUTER_API_KEY and HTTP-Referer. POST to /chat/completions with messages=[{'role':'system', 'content':system_prompt}, {'role':'user', 'content':prompt}], model=model. Return parsed JSON response as dict.",
             "status": "pending",
-            "testStrategy": "Mock aiohttp response with sample OpenRouter JSON, verify function returns dict with choices[0].message.content."
+            "testStrategy": "Mock aiohttp response with sample OpenRouter JSON, verify function returns dict with choices[0].message.content.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -168,7 +185,8 @@
             ],
             "details": "Wrap the aiohttp request in a retry loop: max 3 attempts, exponential backoff (1s, 2s, 4s), retry on aiohttp.ClientError, status 429/5xx. Log retry attempts. Use asyncio.sleep for delays.",
             "status": "pending",
-            "testStrategy": "Mock failing requests (raise ClientError on 1st/2nd try), verify retries succeed on 3rd, no retry on 4xx client errors."
+            "testStrategy": "Mock failing requests (raise ClientError on 1st/2nd try), verify retries succeed on 3rd, no retry on 4xx client errors.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -179,7 +197,8 @@
             ],
             "details": "From response['choices'][0]['message']['content'], use re.search(r'SENTIMENT_SCORE:\\s*([-]?(?:\\d*\\.)?\\d+)', content) to extract float score between -1.0 and 1.0. Return score in response dict or handle parsing failure gracefully.",
             "status": "pending",
-            "testStrategy": "Test with sample responses containing valid/invalid sentiment patterns, verify extraction accuracy and bounds checking."
+            "testStrategy": "Test with sample responses containing valid/invalid sentiment patterns, verify extraction accuracy and bounds checking.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -191,7 +210,8 @@
             ],
             "details": "Wrap query_openrouter in try-except, on any unhandled exception after retries return {'error': True, 'sentiment_score': 0.0, 'content': 'Request failed'}. Log failures for debugging.",
             "status": "pending",
-            "testStrategy": "Mock permanent failure after retries, verify default dict returned without raising exception."
+            "testStrategy": "Mock permanent failure after retries, verify default dict returned without raising exception.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -204,20 +224,21 @@
             ],
             "details": "Def async def query_personas_parallel(policy_text: str) -> List[dict]: tasks = [query_persona(persona, policy_text) for persona in PERSONAS]; return await asyncio.gather(*tasks, return_exceptions=True). Integrate as stage1_eerste_reacties dependency. Ensure session closed properly.",
             "status": "pending",
-            "testStrategy": "Mock 15 parallel calls, verify returns list of 15 dicts within timeout, single failure returns default without crashing whole batch."
+            "testStrategy": "Mock 15 parallel calls, verify returns list of 15 dicts within timeout, single failure returns default without crashing whole batch.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 4,
+        "id": "4",
         "title": "Implement Stage 1 - Eerste Reacties in burgerraad.py",
         "description": "Parallel queries to 15 personas with sentiment scoring for individual reactions",
         "details": "`async def stage1_eerste_reacties(policy_text: str) -> List[dict]`: Query all 15 personas in parallel, each returns {persona_id, name, reaction, sentiment_score}. Prompt includes: 'Eindig je antwoord met SENTIMENT_SCORE: [score tussen -1.0 en 1.0]' for easy parsing.",
         "testStrategy": "Integration test with sample policy text returns exactly 15 reactions with valid sentiment_scores, all personas represented, average response time <25s.",
         "priority": "high",
         "dependencies": [
-          2,
-          3
+          "2",
+          "3"
         ],
         "status": "pending",
         "subtasks": [
@@ -228,7 +249,8 @@
             "dependencies": [],
             "details": "Each persona should represent diverse Dutch demographics (age, income, region, profession). System prompt instructs to respond as persona and end with 'SENTIMENT_SCORE: [score tussen -1.0 en 1.0]' for parsing.",
             "status": "pending",
-            "testStrategy": "Verify PERSONAS list has exactly 15 entries with required fields: persona_id (int), name (str), system_prompt (str)"
+            "testStrategy": "Verify PERSONAS list has exactly 15 entries with required fields: persona_id (int), name (str), system_prompt (str)",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -239,7 +261,8 @@
             ],
             "details": "Use query_openrouter() from openrouter.py. Construct full prompt: system_prompt + 'Policy: ' + policy_text + 'Reactie:'. Parse response to extract reaction text and sentiment_score via regex matching 'SENTIMENT_SCORE: (-?\\d+\\.\\d+)' or string split.",
             "status": "pending",
-            "testStrategy": "Mock OpenRouter response, verify returns {persona_id, name, reaction, sentiment_score} with score as float between -1.0 and 1.0"
+            "testStrategy": "Mock OpenRouter response, verify returns {persona_id, name, reaction, sentiment_score} with score as float between -1.0 and 1.0",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -251,7 +274,8 @@
             ],
             "details": "await asyncio.gather(*[query_persona(p, policy_text) for p in PERSONAS], return_exceptions=True). For exceptions, return default dict {'persona_id': p['persona_id'], 'name': p['name'], 'reaction': 'No response available', 'sentiment_score': 0.0}. Ensure all 15 personas represented.",
             "status": "pending",
-            "testStrategy": "Mock 15 queries, test one failure returns 15 results with graceful degradation, verify order preserved or sorted by persona_id"
+            "testStrategy": "Mock 15 queries, test one failure returns 15 results with graceful degradation, verify order preserved or sorted by persona_id",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -262,7 +286,8 @@
             ],
             "details": "Validate policy_text: str, max 5000 chars, non-empty. Use asyncio.wait_for(query_persona(), timeout=10.0) or asyncio.gather with return_when=ALL_COMPLETED. Log timeouts/warnings. Target total <25s for 15 queries.",
             "status": "pending",
-            "testStrategy": "Test invalid input raises ValueError, timeout simulation returns partial results within 25s total"
+            "testStrategy": "Test invalid input raises ValueError, timeout simulation returns partial results within 25s total",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -273,19 +298,20 @@
             ],
             "details": "Use pytest-asyncio. Mock OpenRouter client. Test: exactly 15 reactions, all personas present, sentiment_scores valid (-1.0 to 1.0), average time <25s, error resilience. Test with sample Dutch policy text.",
             "status": "pending",
-            "testStrategy": "Pytest-asyncio: mock_policy='Voorstel: hogere belastingen', assert len(results)==15, all unique persona_ids, valid scores, time.perf_counter() <25s"
+            "testStrategy": "Pytest-asyncio: mock_policy='Voorstel: hogere belastingen', assert len(results)==15, all unique persona_ids, valid scores, time.perf_counter() <25s",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 5,
+        "id": "5",
         "title": "Implement JSON session storage in storage.py",
         "description": "Create session-based JSON storage in data/sessions/ for persisting 4-stage results",
         "details": "`def create_session(policy_text: str) -> str`: Generate UUID session_id, save to data/sessions/{session_id}.json with structure {id, created_at, policy_text, stage1, stage2, stage3, stage4}. `def get_session(session_id: str) -> dict`, `def save_stage(session_id: str, stage: int, data: dict)`. Ensure thread-safe file operations.",
         "testStrategy": "Test session creation, stage-by-stage saves, full retrieval reconstructs complete flow, concurrent access doesn't corrupt data.",
         "priority": "medium",
         "dependencies": [
-          1
+          "1"
         ],
         "status": "pending",
         "subtasks": [
@@ -296,7 +322,8 @@
             "dependencies": [],
             "details": "Use os.makedirs('data/sessions', exist_ok=True). Import uuid, json, datetime, threading.Lock. Define a global session_lock = threading.Lock() for thread-safety.",
             "status": "pending",
-            "testStrategy": "Verify directory exists and imports work without errors"
+            "testStrategy": "Verify directory exists and imports work without errors",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -307,7 +334,8 @@
             ],
             "details": "Generate session_id = str(uuid.uuid4()). Create dict with 'id': session_id, 'created_at': datetime.datetime.now().isoformat(), 'policy_text': policy_text, 'stage1': None, 'stage2': None, 'stage3': None, 'stage4': None. Use lock for thread-safe write.",
             "status": "pending",
-            "testStrategy": "Test returns valid UUID, file created with correct initial structure and policy_text persisted"
+            "testStrategy": "Test returns valid UUID, file created with correct initial structure and policy_text persisted",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -318,7 +346,8 @@
             ],
             "details": "Check if file exists at data/sessions/{session_id}.json. If exists, load with json.load() under lock and return dict. If not, return None or raise custom SessionNotFoundError.",
             "status": "pending",
-            "testStrategy": "Test loads existing session correctly, returns None for non-existent session_id"
+            "testStrategy": "Test loads existing session correctly, returns None for non-existent session_id",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -331,7 +360,8 @@
             ],
             "details": "Load session with get_session(). Validate stage 1-4. Set session[f'stage{stage}'] = data. Write back to file using json.dump with indent=2 under lock. Handle file not found error.",
             "status": "pending",
-            "testStrategy": "Test updates specific stage without affecting others, preserves existing data"
+            "testStrategy": "Test updates specific stage without affecting others, preserves existing data",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -344,20 +374,21 @@
             ],
             "details": "Use threading.Thread to simulate concurrent create_session, save_stage calls. Test full flow: create → save stage1 → save stage2 → get_session reconstructs all data correctly.",
             "status": "pending",
-            "testStrategy": "Run 10 concurrent threads creating/saving sessions, verify no data corruption, all files valid JSON"
+            "testStrategy": "Run 10 concurrent threads creating/saving sessions, verify no data corruption, all files valid JSON",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 6,
+        "id": "6",
         "title": "Implement FastAPI endpoints for 4-stage flow",
         "description": "Create API routes /sessions, /stage1/{session_id}, /stage2/{session_id}, etc.",
         "details": "POST /sessions -> create_session(). POST /stage1/{session_id} -> stage1_eerste_reacties(). GET /session/{session_id} -> get_session(). Sequential endpoints: stage2 calls stage1 if missing, etc. Rate limiting and input validation (policy_text max 5000 chars). Health endpoint /health.",
         "testStrategy": "API tests: create session, run full 4-stage flow via endpoints, verify data persistence and sequential dependencies work.",
         "priority": "high",
         "dependencies": [
-          4,
-          5
+          "4",
+          "5"
         ],
         "status": "pending",
         "subtasks": [
@@ -368,7 +399,8 @@
             "dependencies": [],
             "details": "POST /sessions calls create_session() from storage.py, validates policy_text (max 5000 chars), returns session_id with 201 status. GET /session/{session_id} calls get_session(), returns 404 if not found. Use proper status codes and response models per FastAPI best practices.",
             "status": "pending",
-            "testStrategy": "Test session creation with valid/invalid policy_text, verify 5000 char limit enforced, test GET existing/non-existing session returns correct status/data"
+            "testStrategy": "Test session creation with valid/invalid policy_text, verify 5000 char limit enforced, test GET existing/non-existing session returns correct status/data",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -379,7 +411,8 @@
             ],
             "details": "Validate session_id exists via get_session(), enforce policy_text max 5000 chars if provided, call stage1_eerste_reacties(policy_text), save results via save_stage(session_id, 1, data), return stage1 results. Use async endpoint since stage1 is async.",
             "status": "pending",
-            "testStrategy": "Test with existing/non-existing session_id, verify stage1 data saved and returned, test policy_text validation"
+            "testStrategy": "Test with existing/non-existing session_id, verify stage1 data saved and returned, test policy_text validation",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -390,7 +423,8 @@
             ],
             "details": "Each endpoint checks if previous stage exists (e.g. stage2 requires stage1), auto-runs missing prerequisites sequentially, implements stage-specific logic, saves results. Return current stage results and session summary. Handle errors gracefully with proper HTTP status codes.",
             "status": "pending",
-            "testStrategy": "Test full sequential flow: create session → stage1 → stage2 → stage3 → stage4, verify prerequisites auto-run when skipped, test partial flows"
+            "testStrategy": "Test full sequential flow: create session → stage1 → stage2 → stage3 → stage4, verify prerequisites auto-run when skipped, test partial flows",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -401,7 +435,8 @@
             ],
             "details": "Use fastapi-limiter for rate limiting (e.g. 10 req/min per IP), add global middleware for policy_text validation (max 5000 chars), session_id UUID validation, add request logging and correlation IDs. Apply to all endpoints including health check.",
             "status": "pending",
-            "testStrategy": "Test rate limit exceeded returns 429, verify policy_text truncation/rejection at 5000 chars, test invalid UUID session_id returns 422"
+            "testStrategy": "Test rate limit exceeded returns 429, verify policy_text truncation/rejection at 5000 chars, test invalid UUID session_id returns 422",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -412,19 +447,20 @@
             ],
             "details": "GET /health returns {'status': 'healthy'} with basic checks (storage writable, OpenRouter reachable). Write pytest suite testing full flow: create→stage1→stage2→stage3→stage4→get_session verifies complete data persistence and sequential dependencies.",
             "status": "pending",
-            "testStrategy": "Health endpoint returns 200, full flow test completes successfully with all stages populated correctly in single session.json, concurrent session creation doesn't conflict"
+            "testStrategy": "Health endpoint returns 200, full flow test completes successfully with all stages populated correctly in single session.json, concurrent session creation doesn't conflict",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 7,
+        "id": "7",
         "title": "Create PersonaAvatar component and core styling",
         "description": "Build reusable PersonaAvatar.jsx with sentiment ring animations and Dutch labels",
         "details": "CSS: sentiment colors #e74c3c(red), #f39c12(orange), #27ae60(green). Ring animations: `@keyframes pulse`, `box-shadow: 0 0 20px ${color}`. Component props: {persona, sentiment, isSpeaking, onClick}. Pulse animation when speaking. Use realistic avatar images (generate 15 Dutch citizen photos).",
         "testStrategy": "Visual regression: verify 3 sentiment states render correctly, pulse animation triggers on prop change, click handler fires.",
         "priority": "high",
         "dependencies": [
-          1
+          "1"
         ],
         "status": "pending",
         "subtasks": [
@@ -435,7 +471,8 @@
             "dependencies": [],
             "details": "Use AI image generation tools (Midjourney/DALL-E) with prompts like 'photorealistic portrait of [age] year old Dutch [gender] [profession], natural lighting, neutral background'. Name files as persona1.jpg to persona15.jpg. Store in frontend/src/assets/avatars/. Ensure diversity in age, gender, ethnicity typical of Netherlands population.",
             "status": "pending",
-            "testStrategy": "Verify all 15 images exist in assets folder, check file sizes reasonable (50-200KB), confirm visual diversity matches Dutch demographics"
+            "testStrategy": "Verify all 15 images exist in assets folder, check file sizes reasonable (50-200KB), confirm visual diversity matches Dutch demographics",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -446,7 +483,8 @@
             ],
             "details": "Create src/components/PersonaAvatar.jsx. Define interface PersonaAvatarProps { persona: {name: string, image?: string}, sentiment: 'red'|'orange'|'green', isSpeaking: boolean, onClick: () => void }. Render circular avatar img with persona.name alt text, Dutch name label below, clickable wrapper with onClick handler. Use CSS modules or styled-components for base styling.",
             "status": "pending",
-            "testStrategy": "Unit test: render with all prop combinations, verify img src/alt renders correctly, onClick fires, name label displays Dutch names properly"
+            "testStrategy": "Unit test: render with all prop combinations, verify img src/alt renders correctly, onClick fires, name label displays Dutch names properly",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -457,7 +495,8 @@
             ],
             "details": "In PersonaAvatar.module.css or global styles: Define .sentiment-ring base class with border-radius, position relative. Create .sentiment-red { box-shadow: 0 0 20px #e74c3c }, similarly for orange/green. Map sentiment prop to appropriate className. Ensure ring sits behind avatar image using z-index.",
             "status": "pending",
-            "testStrategy": "Visual test: verify each sentiment color renders correct glow effect, check box-shadow values match spec, no overlap issues"
+            "testStrategy": "Visual test: verify each sentiment color renders correct glow effect, check box-shadow values match spec, no overlap issues",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -468,7 +507,8 @@
             ],
             "details": "Define @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px ${color} }, 50% { box-shadow: 0 0 30px ${color}, 0 0 40px ${color} } }. Add .speaking class with animation: pulse 1.5s infinite. Dynamically apply speaking class + sentiment color when isSpeaking=true. Use CSS custom properties for dynamic color: --sentiment-color.",
             "status": "pending",
-            "testStrategy": "Animation test: toggle isSpeaking prop, verify pulse starts/stops correctly, animation smooth across all 3 sentiment colors"
+            "testStrategy": "Animation test: toggle isSpeaking prop, verify pulse starts/stops correctly, animation smooth across all 3 sentiment colors",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -479,19 +519,20 @@
             ],
             "details": "Display persona.name in Dutch format below avatar (e.g. 'Jan de Vries, 45'). Add aria-label={`Avatar van ${persona.name}, sentiment: ${sentiment}`}, role='img'. Ensure responsive design (mobile: smaller avatar/label). Create PersonaAvatar.stories.jsx with all 3 sentiments + speaking states. Export as default + named export.\n<info added on 2026-01-03T17:23:21.561Z>\nAfter finalizing PersonaAvatar component, use Playwright MCP to visually verify: 1) browser_navigate to Storybook or test page, 2) browser_take_screenshot of all 3 sentiment states (red/orange/green), 3) Verify pulse animation triggers correctly.\n</info added on 2026-01-03T17:23:21.561Z>",
             "status": "pending",
-            "testStrategy": "Visual regression: verify 3 sentiment states + speaking animation in Storybook, accessibility audit passes, responsive breakpoints work"
+            "testStrategy": "Visual regression: verify 3 sentiment states + speaking animation in Storybook, accessibility audit passes, responsive breakpoints work",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 8,
+        "id": "8",
         "title": "Implement Stage1View.jsx - Human Heatmap",
         "description": "Grid of 15 PersonaAvatars showing sentiment colors at a glance",
         "details": "5x3 CSS Grid layout. Click avatar → Modal with full reaction text (ReactMarkdown in .markdown-content). Dutch labels: 'Eerste Reacties'. Smooth fade-in animation for reactions. Impact Slider sidebar stub (portemonnee/stress meters).",
         "testStrategy": "Component test: renders 15 avatars, sentiment colors correct from mock data, modal opens/closes, Dutch text present.",
         "priority": "high",
         "dependencies": [
-          7
+          "7"
         ],
         "status": "pending",
         "subtasks": [
@@ -502,7 +543,8 @@
             "dependencies": [],
             "details": "Use CSS Grid: grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr);. Include responsive spacing and container with max-width. Add fade-in animation class for the grid.",
             "status": "pending",
-            "testStrategy": "Verify grid renders with correct 5x3 layout, Dutch title visible, and fade-in animation triggers on mount."
+            "testStrategy": "Verify grid renders with correct 5x3 layout, Dutch title visible, and fade-in animation triggers on mount.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -511,7 +553,8 @@
             "dependencies": [],
             "details": "Map sentiment_score to color gradient (e.g., hsl(0, 100%, 50%) for -1, hsl(120, 100%, 50%) for +1). Use circular shape with white text overlay for persona name/initials. Size: 80x80px.",
             "status": "pending",
-            "testStrategy": "Test renders correct colors for sentiment_scores -1, -0.5, 0, 0.5, 1 from mock data."
+            "testStrategy": "Test renders correct colors for sentiment_scores -1, -0.5, 0, 0.5, 1 from mock data.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -523,7 +566,8 @@
             ],
             "details": "Use static mock data array with 15 entries: {persona_id, name, reaction, sentiment_score}. Map over array to render PersonaAvatar components in grid cells with proper indexing.",
             "status": "pending",
-            "testStrategy": "Confirm exactly 15 avatars render with correct persona names and sentiment colors from mock data."
+            "testStrategy": "Confirm exactly 15 avatars render with correct persona names and sentiment colors from mock data.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -536,7 +580,8 @@
             ],
             "details": "Use React state for modal visibility and selected persona data. Modal should overlay with backdrop, center content, smooth open/close transitions. Import ReactMarkdown for reaction text rendering.",
             "status": "pending",
-            "testStrategy": "Click avatar opens modal with correct persona's full reaction text rendered as markdown, close button/overlay works."
+            "testStrategy": "Click avatar opens modal with correct persona's full reaction text rendered as markdown, close button/overlay works.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -550,19 +595,20 @@
             ],
             "details": "Sidebar: fixed position right panel with mock sliders (portemonnee/wallet, stress meters). Use CSS transitions for all animations. Ensure mobile responsiveness (stack grid on small screens).\n<info added on 2026-01-03T17:23:13.268Z>\nPlaywright MCP verification workflow: After Stage1View implementation is complete, run Playwright MCP agents to validate the component. Use the following tools and sequence: 1) mcp__playwright__browser_navigate to localhost:5173, 2) mcp__playwright__browser_snapshot to capture the 15-avatar grid layout, 3) mcp__playwright__browser_click to select an avatar and verify the modal opens with ReactMarkdown content, 4) mcp__playwright__browser_console_messages to check for any JavaScript errors. Document results in test output confirming grid renders correctly, modal interaction works, and console is error-free. This validates the component's visual presentation and interactivity before proceeding to Stage 2.\n</info added on 2026-01-03T17:23:13.268Z>",
             "status": "pending",
-            "testStrategy": "Verify sidebar renders correctly, all animations smooth, component responsive on mobile, full component matches design spec."
+            "testStrategy": "Verify sidebar renders correctly, all animations smooth, component responsive on mobile, full component matches design spec.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 9,
+        "id": "9",
         "title": "Implement Stage 2-4 backend logic (Coalitions, Debates, Ombudsman)",
         "description": "Complete burgerraad.py with stage2_coalitievorming, stage3_coalitiedebatten, stage4_ombudsman_rapport",
         "details": "Stage2: LLM prompt analyzes stage1 for 3-4 dynamic coalitions, returns structured {name, members[], spokesperson, position}. Stage3: Pick 2 highest-tension matchups, generate 3 exchanges/side with interjections. Stage4: Synthesize all stages into {score: 'red'|'orange'|'green', pain_points[], hardest_hit[], recommendations[]}.",
         "testStrategy": "Integration test full 4-stage pipeline with sample policy text, verify structured outputs match schema, coalition clustering logical.",
         "priority": "high",
         "dependencies": [
-          4
+          "4"
         ],
         "status": "pending",
         "subtasks": [
@@ -573,7 +619,8 @@
             "dependencies": [],
             "details": "Use OpenRouter client to prompt LLM with stage1 data. Prompt must instruct analysis for dynamic coalitions with structure {name, members[], spokesperson, position}. Parse JSON response and validate schema. Save to session storage.",
             "status": "pending",
-            "testStrategy": "Unit test: Mock stage1 input, verify exactly 3-4 coalitions returned with valid structure, members from 15 personas, logical grouping by sentiment."
+            "testStrategy": "Unit test: Mock stage1 input, verify exactly 3-4 coalitions returned with valid structure, members from 15 personas, logical grouping by sentiment.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -584,7 +631,8 @@
             ],
             "details": "Calculate tension score between coalitions based on opposing positions/sentiments (e.g., avg sentiment delta, position mismatch). Select top 2 pairs by highest tension. Use quantitative metrics for objectivity.",
             "status": "pending",
-            "testStrategy": "Unit test: Given mock coalitions with known sentiments, verify correct top-2 pairs selected by tension score descending."
+            "testStrategy": "Unit test: Given mock coalitions with known sentiments, verify correct top-2 pairs selected by tension score descending.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -596,7 +644,8 @@
             ],
             "details": "Craft LLM prompt for each matchup: spokesperson arguments (3/side), interjections from other coalition members. Structure output as exchanges array. Chain from stage2 coalitions and tension analysis.",
             "status": "pending",
-            "testStrategy": "Integration test: Run stage2→tension→debate, verify 2 debates with 3+ exchanges/side, interjections present, coherent dialogue flow."
+            "testStrategy": "Integration test: Run stage2→tension→debate, verify 2 debates with 3+ exchanges/side, interjections present, coherent dialogue flow.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -609,7 +658,8 @@
             ],
             "details": "LLM prompt analyzes full pipeline: assign {score: 'red'|'orange'|'green'}, extract pain_points[], identify hardest_hit personas/coalitions, generate recommendations[]. Ensure structured JSON output.",
             "status": "pending",
-            "testStrategy": "End-to-end test: Full stage1-4 with sample policy, verify score logical (red=high conflict), arrays populated, recommendations actionable."
+            "testStrategy": "End-to-end test: Full stage1-4 with sample policy, verify score logical (red=high conflict), arrays populated, recommendations actionable.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -623,20 +673,21 @@
             ],
             "details": "POST /stage2/{session_id}, /stage3/{session_id}, /stage4/{session_id}. Auto-load prior stages from storage.py. Sequential validation (stage2 requires stage1). Error handling for missing data.",
             "status": "pending",
-            "testStrategy": "API integration test: Create session → stage1 → stage2 → stage3 → stage4, verify full pipeline persistence and structured outputs match schemas."
+            "testStrategy": "API integration test: Create session → stage1 → stage2 → stage3 → stage4, verify full pipeline persistence and structured outputs match schemas.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 10,
+        "id": "10",
         "title": "Build Stage2View, Stage3View, Stage4View and main App flow",
         "description": "Complete frontend with coalition clusters, debate arena, ombudsman scorecard",
         "details": "App.jsx: Textarea for policy input, 4-stage stepper, session management via API. Stage2: Avatars animate into clusters, connection lines. Stage3: Split-screen debate with speech bubbles + interjections. Stage4: Traffic light score, word cloud pain points, export PNG button (html2canvas). Dutch UI throughout.",
         "testStrategy": "E2E test: paste policy text → click Run → verify all 4 stages render with correct data and animations, export generates image.",
         "priority": "high",
         "dependencies": [
-          6,
-          8
+          "6",
+          "8"
         ],
         "status": "pending",
         "subtasks": [
@@ -647,7 +698,8 @@
             "dependencies": [],
             "details": "Use CSS Grid/Flexbox for cluster layout. Implement Framer Motion or CSS animations for avatar entrance (staggered delays). Draw SVG connection lines between allied personas based on backend stage2 data. Dutch labels: 'Coalitievorming'. Responsive design for desktop/mobile.",
             "status": "pending",
-            "testStrategy": "Component test: renders clusters from mock data, animations complete within 2s, connection lines visible between correct avatars, Dutch text present"
+            "testStrategy": "Component test: renders clusters from mock data, animations complete within 2s, connection lines visible between correct avatars, Dutch text present",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -656,7 +708,8 @@
             "dependencies": [],
             "details": "CSS Grid 50/50 split-screen layout. Speech bubbles with typing animation (CSS keyframes). Interjections appear as pop-up overlays with higher z-index. Timeline-based sequencing from backend stage3 data. Dutch labels: 'Debat Arena'. Avatar facial expressions change during debate.",
             "status": "pending",
-            "testStrategy": "Component test: split-screen renders, speech bubble sequence matches mock data, interjections trigger correctly, animations smooth without layout shift"
+            "testStrategy": "Component test: split-screen renders, speech bubble sequence matches mock data, interjections trigger correctly, animations smooth without layout shift",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -665,7 +718,8 @@
             "dependencies": [],
             "details": "Traffic light icons (green/yellow/red) based on stage4 metrics. D3.js or react-wordcloud for pain points visualization. html2canvas integration for full-stage PNG export. Dutch labels: 'Ombudsman Scorekaart', 'Exporteer Rapport'. Include summary statistics table.",
             "status": "pending",
-            "testStrategy": "Component test: traffic lights color correctly from mock scores, word cloud renders top pain points, export button generates downloadable PNG with all elements captured"
+            "testStrategy": "Component test: traffic lights color correctly from mock scores, word cloud renders top pain points, export button generates downloadable PNG with all elements captured",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -678,7 +732,8 @@
             ],
             "details": "Implement React useState/useReducer for currentStep (0-4). API calls to create_session on policy submit, load_stage on step change. Previous/Next buttons with validation. Loading spinners between stages. Dutch stepper labels: 'Eerste Reacties', 'Coalitie', 'Debat', 'Scorekaart'. Error boundaries.\n<info added on 2026-01-03T17:23:15.740Z>\nAfter implementing App stepper flow, Claude must run full E2E test with Playwright MCP: 1) Navigate to localhost:5173, 2) Paste sample policy text in textarea, 3) Click \"Run\" button, 4) Verify Stage 1-4 transitions work, 5) Take screenshots at each stage, 6) Check for console errors. Use browser_navigate, browser_type, browser_click, browser_snapshot, browser_take_screenshot, browser_console_messages tools.\n</info added on 2026-01-03T17:23:15.740Z>",
             "status": "pending",
-            "testStrategy": "Integration test: policy input → Run → stepper advances through all 4 stages with correct data loaded from API, navigation works bidirectionally"
+            "testStrategy": "Integration test: policy input → Run → stepper advances through all 4 stages with correct data loaded from API, navigation works bidirectionally",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -692,19 +747,20 @@
             ],
             "details": "Create Dutch translation object with all UI strings. Use useTranslation hook or Context for i18n. Tailwind CSS design system: consistent colors, typography, spacing. Responsive breakpoints for mobile/tablet/desktop. Accessibility: ARIA labels, keyboard navigation for stepper.",
             "status": "pending",
-            "testStrategy": "Visual regression test: all Dutch text present and correct, responsive layouts work on mobile/desktop, color contrast meets WCAG standards, keyboard navigation completes full flow"
+            "testStrategy": "Visual regression test: all Dutch text present and correct, responsive layouts work on mobile/desktop, color contrast meets WCAG standards, keyboard navigation completes full flow",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 11,
+        "id": "11",
         "title": "Add visual polish: Impact Slider, animations, Rijksoverheid styling",
         "description": "Implement sidebar visualizations and production-ready styling",
         "details": "Impact Slider: Portemonnee barometer (mock +/- € values), Stress-meter gauge. CSS transitions between stages. Dutch government color palette + modern gradients. Responsive design for screenshots. Pulse animations for warnings.",
         "testStrategy": "Visual tests: verify animations smooth, color scheme matches spec, responsive on desktop, all Dutch text correct.",
         "priority": "medium",
         "dependencies": [
-          10
+          "10"
         ],
         "status": "pending",
         "subtasks": [
@@ -715,7 +771,8 @@
             "dependencies": [],
             "details": "Use horizontal bar with green/red gradients for +/- values, animate bar fill with CSS transitions based on stage data from API. Ensure Dutch labels like 'Portemonnee barometer' and responsive sizing for desktop screenshots.",
             "status": "pending",
-            "testStrategy": "Visual test: verify bar animates smoothly from neutral to +/- extremes, values match mock data, responsive on 1920px and 375px widths."
+            "testStrategy": "Visual test: verify bar animates smoothly from neutral to +/- extremes, values match mock data, responsive on 1920px and 375px widths.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -724,7 +781,8 @@
             "dependencies": [],
             "details": "Implement SVG-based gauge with needle or arc fill, red/orange/green segments per Rijksoverheid palette, smooth CSS rotation/scale transitions between stages. Add Dutch text 'Stress-meter'.",
             "status": "pending",
-            "testStrategy": "Visual test: confirm gauge updates correctly per stage, colors match official palette, animation fluid without jitter on stage transitions."
+            "testStrategy": "Visual test: confirm gauge updates correctly per stage, colors match official palette, animation fluid without jitter on stage transitions.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -736,7 +794,8 @@
             ],
             "details": "Define CSS variables from rijkshuisstijl.nl: primary blue lintkleur, 15-75% tints, accent colors; apply to sliders, gauges, backgrounds with linear-gradient overlays for modern look. Limit to 1-2 colors per component.",
             "status": "pending",
-            "testStrategy": "Visual test: screenshot comparison against rijkshuisstijl spec, verify no unauthorized colors, gradients render consistently across browsers."
+            "testStrategy": "Visual test: screenshot comparison against rijkshuisstijl spec, verify no unauthorized colors, gradients render consistently across browsers.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -749,7 +808,8 @@
             ],
             "details": "Use CSS @keyframes for pulse on warnings (scale + opacity), transition: all 0.3s ease on stage changes; media queries for mobile/desktop, optimize for screenshot capture at 1920x1080.",
             "status": "pending",
-            "testStrategy": "E2E test: trigger stage changes via API, verify 60fps animations, responsive layout on 4 breakpoints, pulse activates on warning data."
+            "testStrategy": "E2E test: trigger stage changes via API, verify 60fps animations, responsive layout on 4 breakpoints, pulse activates on warning data.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -761,15 +821,20 @@
             ],
             "details": "Update Stage2View/3View/4View to render sliders/gauges beside content; audit all UI text for correct Dutch (e.g., 'Impact', 'Stress'); add ARIA labels for accessibility per rijkshuisstijl guidelines.\n<info added on 2026-01-03T17:23:26.771Z>\nAdd Playwright visual regression testing: 1) Create baseline screenshots for complete 4-stage flow using expect(page).toHaveScreenshot() at each stage transition; 2) Configure pixel-by-pixel comparison with maxDiffPixelRatio threshold to catch unintended visual changes; 3) Validate Dutch text rendering (Impact, Stress, stage labels) matches rijkshuisstijl specifications; 4) Monitor browser console for errors using page.on('console') to ensure no warnings or exceptions during flow; 5) Verify animation smoothness by capturing screenshots with animations disabled parameter and comparing against baseline with animations enabled; 6) Run full test suite in CI pipeline to detect visual regressions before production deployment.\n</info added on 2026-01-03T17:23:26.771Z>",
             "status": "pending",
-            "testStrategy": "Full visual regression: run 4-stage flow, check Dutch text, accessibility with Lighthouse score >90, screenshots match design spec."
+            "testStrategy": "Full visual regression: run 4-stage flow, check Dutch text, accessibility with Lighthouse score >90, screenshots match design spec.",
+            "parentId": "undefined"
           }
         ]
       }
     ],
     "metadata": {
-      "created": "2026-01-03T14:41:57.879Z",
-      "updated": "2026-01-03T14:41:57.879Z",
-      "description": "Tasks for master context"
+      "version": "1.0.0",
+      "lastModified": "2026-01-03T18:00:03.191Z",
+      "taskCount": 11,
+      "completedCount": 1,
+      "tags": [
+        "master"
+      ]
     }
   }
 }

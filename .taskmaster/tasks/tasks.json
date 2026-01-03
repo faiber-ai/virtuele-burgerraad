@@ -88,7 +88,7 @@
         "dependencies": [
           "1"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -151,7 +151,8 @@
             "testStrategy": "Run pytest config_test.py: 100% pass rate, covers happy path + missing env, validates Dutch content integrity and field validation.",
             "parentId": "undefined"
           }
-        ]
+        ],
+        "updatedAt": "2026-01-03T18:11:02.272Z"
       },
       {
         "id": "3",
@@ -164,7 +165,7 @@
           "1",
           "2"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -172,9 +173,10 @@
             "description": "Create the core async function query_openrouter that makes a single API call to OpenRouter using aiohttp with proper headers, API key, and request payload.",
             "dependencies": [],
             "details": "Use aiohttp.ClientSession with base_url='https://openrouter.ai/api/v1', headers including OPENROUTER_API_KEY and HTTP-Referer. POST to /chat/completions with messages=[{'role':'system', 'content':system_prompt}, {'role':'user', 'content':prompt}], model=model. Return parsed JSON response as dict.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Mock aiohttp response with sample OpenRouter JSON, verify function returns dict with choices[0].message.content.",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:12:42.270Z"
           },
           {
             "id": 2,
@@ -184,9 +186,10 @@
               1
             ],
             "details": "Wrap the aiohttp request in a retry loop: max 3 attempts, exponential backoff (1s, 2s, 4s), retry on aiohttp.ClientError, status 429/5xx. Log retry attempts. Use asyncio.sleep for delays.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Mock failing requests (raise ClientError on 1st/2nd try), verify retries succeed on 3rd, no retry on 4xx client errors.",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:12:42.464Z"
           },
           {
             "id": 3,
@@ -196,9 +199,10 @@
               1
             ],
             "details": "From response['choices'][0]['message']['content'], use re.search(r'SENTIMENT_SCORE:\\s*([-]?(?:\\d*\\.)?\\d+)', content) to extract float score between -1.0 and 1.0. Return score in response dict or handle parsing failure gracefully.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test with sample responses containing valid/invalid sentiment patterns, verify extraction accuracy and bounds checking.",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:12:42.742Z"
           },
           {
             "id": 4,
@@ -209,9 +213,10 @@
               3
             ],
             "details": "Wrap query_openrouter in try-except, on any unhandled exception after retries return {'error': True, 'sentiment_score': 0.0, 'content': 'Request failed'}. Log failures for debugging.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Mock permanent failure after retries, verify default dict returned without raising exception.",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:12:42.949Z"
           },
           {
             "id": 5,
@@ -223,11 +228,13 @@
               4
             ],
             "details": "Def async def query_personas_parallel(policy_text: str) -> List[dict]: tasks = [query_persona(persona, policy_text) for persona in PERSONAS]; return await asyncio.gather(*tasks, return_exceptions=True). Integrate as stage1_eerste_reacties dependency. Ensure session closed properly.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Mock 15 parallel calls, verify returns list of 15 dicts within timeout, single failure returns default without crashing whole batch.",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2026-01-03T18:12:43.181Z"
           }
-        ]
+        ],
+        "updatedAt": "2026-01-03T18:12:43.181Z"
       },
       {
         "id": "4",
@@ -829,9 +836,9 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2026-01-03T18:00:03.191Z",
+      "lastModified": "2026-01-03T18:12:43.183Z",
       "taskCount": 11,
-      "completedCount": 1,
+      "completedCount": 3,
       "tags": [
         "master"
       ]
